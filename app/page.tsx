@@ -1,6 +1,8 @@
 import LandingPage from '@/components/landing-page';
 import db from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+
 export default function Home() {
   const menuItems = db.prepare('SELECT * FROM menu_items').all() as any[];
   const settingsRows = db.prepare('SELECT key, value FROM settings WHERE key LIKE \'hours_%\'').all() as { key: string, value: string }[];

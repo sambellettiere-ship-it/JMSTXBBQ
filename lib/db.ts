@@ -2,8 +2,13 @@ import fs from 'fs';
 import path from 'path';
 import Database from 'better-sqlite3';
 
-// Use environment variable if provided, otherwise default to local 'data' directory
-const dbDir = process.env.DB_PATH ? path.dirname(process.env.DB_PATH) : path.join(process.cwd(), 'data');
+// Use environment variable if provided, otherwise default to Railway volume in production, or local 'data' directory
+const isProd = process.env.NODE_ENV === 'production';
+const dbDir = process.env.DB_PATH 
+  ? path.dirname(process.env.DB_PATH) 
+  : isProd 
+    ? '/data/jmstxbbq-volume' 
+    : path.join(process.cwd(), 'data');
 
 if (!fs.existsSync(dbDir)) {
   fs.mkdirSync(dbDir, { recursive: true });

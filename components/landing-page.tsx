@@ -42,7 +42,7 @@ export default function LandingPage({ menuItems, hours }: { menuItems: MenuItem[
   const sandwiches = menuItems.filter(item => item.section === 'sandwiches').sort((a, b) => a.sort_order - b.sort_order);
   const meats = menuItems.filter(item => item.section === 'meats').sort((a, b) => a.sort_order - b.sort_order);
   const sides = menuItems.filter(item => item.section === 'sides').sort((a, b) => a.sort_order - b.sort_order);
-  const dessert = menuItems.filter(item => item.section === 'dessert').sort((a, b) => a.sort_order - b.sort_order)[0];
+  const desserts = menuItems.filter(item => item.section === 'dessert').sort((a, b) => a.sort_order - b.sort_order);
   return (
     <div className="w-full smoke-texture">
       {/* Navigation */}
@@ -268,12 +268,14 @@ export default function LandingPage({ menuItems, hours }: { menuItems: MenuItem[
               {/* Dessert */}
               <div>
                 <h4 className="font-mono text-[12px] uppercase text-stone-500 font-bold mb-6 tracking-[0.2em] border-b border-stone-800 pb-3">Dessert</h4>
-                {dessert && (
-                  <div className="flex justify-between items-baseline">
-                    <span className="font-serif italic font-black text-xl tracking-tighter uppercase text-stone-200">{dessert.name}</span>
-                    <span className="font-mono text-sm font-bold text-orange-500">{dessert.price}</span>
-                  </div>
-                )}
+                <div className="space-y-4">
+                  {desserts.map(item => (
+                    <div key={item.id} className="flex justify-between items-baseline border-b border-stone-800/30 pb-2 border-dashed">
+                      <span className="font-serif italic font-black text-xl tracking-tighter uppercase text-stone-200">{item.name}</span>
+                      <span className="font-mono text-sm font-bold text-orange-500">{item.price}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </motion.div>
           </div>
@@ -369,16 +371,16 @@ export default function LandingPage({ menuItems, hours }: { menuItems: MenuItem[
               <div className="flex items-start gap-4">
                 <Clock className="w-6 h-6 text-orange-500 shrink-0 mt-1" />
                 <div>
-                  <h3 className="font-bold text-lg mb-3">Hours</h3>
-                  <ul className="space-y-2 text-stone-400">
-                    <li className="flex justify-between max-w-xs"><span>Tuesday</span> <span>{hours.tuesday}</span></li>
-                    <li className="flex justify-between max-w-xs"><span>Wednesday</span> <span>{hours.wednesday}</span></li>
-                    <li className="flex justify-between max-w-xs"><span>Thursday</span> <span>{hours.thursday}</span></li>
-                    <li className="flex justify-between max-w-xs"><span>Friday</span> <span>{hours.friday}</span></li>
-                    <li className="flex justify-between max-w-xs"><span>Saturday</span> <span>{hours.saturday}</span></li>
-                    <li className="flex justify-between max-w-xs text-stone-600"><span>Sunday - Monday</span> <span>{hours.sunday_monday}</span></li>
+                  <h3 className="font-bold text-lg mb-4">Hours</h3>
+                  <ul className="w-full sm:w-80 space-y-3 text-stone-400 font-mono text-sm">
+                    <li className="flex justify-between items-baseline border-b border-stone-800/80 border-dashed pb-2"><span className="text-stone-300 font-medium">Tuesday</span> <span className="text-orange-500/80">{hours.tuesday}</span></li>
+                    <li className="flex justify-between items-baseline border-b border-stone-800/80 border-dashed pb-2"><span className="text-stone-300 font-medium">Wednesday</span> <span className="text-orange-500/80">{hours.wednesday}</span></li>
+                    <li className="flex justify-between items-baseline border-b border-stone-800/80 border-dashed pb-2"><span className="text-stone-300 font-medium">Thursday</span> <span className="text-orange-500/80">{hours.thursday}</span></li>
+                    <li className="flex justify-between items-baseline border-b border-stone-800/80 border-dashed pb-2"><span className="text-stone-300 font-medium">Friday</span> <span className="text-orange-500/80">{hours.friday}</span></li>
+                    <li className="flex justify-between items-baseline border-b border-stone-800/80 border-dashed pb-2"><span className="text-stone-300 font-medium">Saturday</span> <span className="text-orange-500/80">{hours.saturday}</span></li>
+                    <li className="flex justify-between items-baseline border-b border-stone-800/80 border-dashed pb-2 text-stone-600"><span className="text-stone-500 font-medium">Sun - Mon</span> <span>{hours.sunday_monday}</span></li>
                   </ul>
-                  <p className="text-xs text-stone-600 mt-4 italic">Confirmed by business recently.</p>
+                  <p className="text-xs text-stone-600 mt-5 italic">Confirmed by business recently.</p>
                 </div>
               </div>
               
