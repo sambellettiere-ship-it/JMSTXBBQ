@@ -46,6 +46,37 @@ export async function updateFeast(formData: FormData) {
   revalidatePath('/admin');
 }
 
+export async function addMenuItem(formData: FormData) {
+  const section = formData.get('section') as string;
+  const name = formData.get('name') as string;
+  const price = formData.get('price') as string;
+  const price2 = formData.get('price2') as string;
+  
+  if (!name || !section) return;
+
+  const orderStmt = db.prepare('SELECT MAX(sort_order) as maxOrder FROM menu_items WHERE section = ?');
+  const result = orderStmt.get(section) as any;
+  const nextOrder = ((result?.maxOrder) || 0) + 1;
+
+  db.prepare(`
+    INSERT INTO menu_items (section, name, price, price2, sort_order)
+    VALUES (@section, @name, @price, @price2, @sort_order)
+  `).run({
+    section, name, price: price || null, price2: price2 || null, sort_order: nextOrder
+  });
+
+  revalidatePath('/');
+  revalidatePath('/admin');
+}
+
+export async function deleteMenuItem(formData: FormData) {
+  const id = formData.get('id') as string;
+  if (!id) return;
+  db.prepare('DELETE FROM menu_items WHERE id = ?').run(id);
+  revalidatePath('/');
+  revalidatePath('/admin');
+}
+
 export async function updateHours(formData: FormData) {
   const stmt = db.prepare('UPDATE settings SET value = @value WHERE key = @key');
   db.transaction(() => {

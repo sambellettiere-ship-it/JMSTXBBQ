@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import db from '@/lib/db';
-import { login, logout, updateMenuItem, updateHours, updateFeast } from './actions';
-import { LogOut, Save } from 'lucide-react';
+import { login, logout, updateMenuItem, updateHours, updateFeast, addMenuItem, deleteMenuItem } from './actions';
+import { LogOut, Save, Trash2, Plus } from 'lucide-react';
 import Link from 'next/link';
 
 export default async function AdminPage() {
@@ -122,11 +122,47 @@ export default async function AdminPage() {
                       </div>
                     )}
                     
-                    <button type="submit" className="w-full sm:w-auto flex items-center justify-center gap-2 bg-stone-800 hover:bg-orange-600 hover:text-stone-950 text-stone-300 px-4 py-2 text-xs font-black uppercase tracking-widest transition-colors h-[38px] shrink-0">
-                      <Save className="w-3 h-3" /> <span className="sm:hidden">Save</span>
-                    </button>
+                    <div className="flex gap-2 w-full sm:w-auto h-[38px] shrink-0">
+                      <button type="submit" className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-stone-800 hover:bg-orange-600 hover:text-stone-950 text-stone-300 px-4 py-2 text-xs font-black uppercase tracking-widest transition-colors h-full">
+                        <Save className="w-3 h-3" /> <span className="sm:hidden">Save</span>
+                      </button>
+                      
+                      <button formAction={deleteMenuItem} className="flex items-center justify-center bg-stone-800/50 hover:bg-red-900/50 hover:text-red-400 text-stone-500 px-3 py-2 transition-colors h-full">
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   </form>
                 ))}
+
+                {/* Add New Item */}
+                <form action={addMenuItem} className="flex flex-col sm:flex-row gap-4 items-end bg-[#0f0f0f] p-4 border border-stone-800 border-dashed mt-2">
+                  <input type="hidden" name="section" value={section} />
+                  
+                  <div className="w-full sm:flex-1">
+                    <label className="text-[10px] uppercase tracking-widest text-stone-500 font-bold block mb-1">New Item Name</label>
+                    <input name="name" placeholder="Item Name" required className="w-full bg-stone-950 border border-stone-800 px-3 py-2 text-stone-200 text-sm outline-none focus:border-orange-500" />
+                  </div>
+                  
+                  <div className="w-full sm:w-24">
+                    <label className="text-[10px] uppercase tracking-widest text-stone-500 font-bold block mb-1">
+                      {section === 'meats' ? 'Half Lb' : section === 'sides' ? 'Small' : 'Price'}
+                    </label>
+                    <input name="price" placeholder="$0" className="w-full bg-stone-950 border border-stone-800 px-3 py-2 text-stone-200 text-sm outline-none focus:border-orange-500" />
+                  </div>
+                  
+                  {(section === 'meats' || section === 'sides') && (
+                    <div className="w-full sm:w-24">
+                      <label className="text-[10px] uppercase tracking-widest text-stone-500 font-bold block mb-1">
+                          {section === 'meats' ? 'Full Lb' : 'Large'}
+                      </label>
+                      <input name="price2" placeholder="$0" className="w-full bg-stone-950 border border-stone-800 px-3 py-2 text-stone-200 text-sm outline-none focus:border-orange-500" />
+                    </div>
+                  )}
+                  
+                  <button type="submit" className="w-full sm:w-auto flex items-center justify-center gap-2 bg-stone-800 hover:bg-orange-600 hover:text-stone-950 text-stone-300 px-4 py-2 text-xs font-black uppercase tracking-widest transition-colors h-[38px] shrink-0">
+                    <Plus className="w-3 h-3" /> Add
+                  </button>
+                </form>
               </div>
             </div>
           ))}

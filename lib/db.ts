@@ -1,8 +1,15 @@
-import Database from 'better-sqlite3';
+import fs from 'fs';
 import path from 'path';
+import Database from 'better-sqlite3';
 
-// Define the database path (we'll store it in the root so it can be mounted via volume in Railway)
-const dbPath = path.join(process.cwd(), 'sqlite.db');
+// Use environment variable if provided, otherwise default to local 'data' directory
+const dbDir = process.env.DB_PATH ? path.dirname(process.env.DB_PATH) : path.join(process.cwd(), 'data');
+
+if (!fs.existsSync(dbDir)) {
+  fs.mkdirSync(dbDir, { recursive: true });
+}
+
+const dbPath = process.env.DB_PATH || path.join(dbDir, 'sqlite.db');
 const db = new Database(dbPath);
 
 db.pragma('journal_mode = WAL');
