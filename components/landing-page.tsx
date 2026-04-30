@@ -84,7 +84,7 @@ export default function LandingPage({ menuItems, hours }: { menuItems: MenuItem[
           animate="visible"
           variants={staggerContainer}
         >
-          <motion.h1 variants={fadeIn} className="font-serif italic text-[80px] sm:text-[100px] md:text-[150px] leading-[0.85] font-black tracking-tighter mb-4 text-white drop-shadow-2xl">
+          <motion.h1 variants={fadeIn} className="font-serif italic text-[14vw] sm:text-[100px] md:text-[130px] lg:text-[150px] leading-[0.9] sm:leading-[0.85] font-black tracking-tighter mb-4 text-white drop-shadow-2xl whitespace-nowrap">
             JM&apos;S <span className="text-transparent bg-clip-text bg-gradient-to-b from-orange-400 to-orange-600 drop-shadow-none">TEXAS</span><br />
             CRAFT BBQ
           </motion.h1>
@@ -144,15 +144,14 @@ export default function LandingPage({ menuItems, hours }: { menuItems: MenuItem[
             </p>
           </motion.div>
           
-          <motion.div variants={fadeIn} className="relative h-[600px] w-full rounded-2xl overflow-hidden border border-white/10 group">
+          <motion.div variants={fadeIn} className="relative h-[600px] w-full rounded-2xl overflow-hidden border border-white/10">
             <Image 
               src="/bbq-plate.jpg"
               alt="The Low and Slow Difference BBQ Plate"
               fill
-              className="object-cover group-hover:scale-105 transition-transform duration-700"
+              className="object-cover"
               referrerPolicy="no-referrer"
             />
-            <div className="absolute inset-0 bg-stone-950/20 group-hover:bg-transparent transition-colors duration-500" />
           </motion.div>
         </motion.div>
 
