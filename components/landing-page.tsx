@@ -127,7 +127,7 @@ export default function LandingPage({ menuItems, hours }: { menuItems: MenuItem[
       </section>
 
       {/* Intro / The Food Section */}
-      <section id="menu" className="py-24 md:py-32 px-6 max-w-7xl mx-auto relative">
+      <section id="about" className="py-24 md:py-32 px-6 max-w-7xl mx-auto relative">
         <motion.div 
           className="grid md:grid-cols-2 gap-16 items-center"
           initial="hidden"
@@ -158,6 +158,7 @@ export default function LandingPage({ menuItems, hours }: { menuItems: MenuItem[
 
         {/* The Actual Menu */}
         <motion.div 
+          id="menu"
           className="mt-32 border-t border-stone-800 pt-16"
           initial="hidden"
           whileInView="visible"
