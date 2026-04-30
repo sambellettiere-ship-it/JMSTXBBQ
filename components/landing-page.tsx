@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import Image from 'next/image';
 import { MapPin, Clock, Star, Phone, Utensils, Instagram } from 'lucide-react';
@@ -37,6 +38,15 @@ export interface Hours {
 }
 
 export default function LandingPage({ menuItems, hours }: { menuItems: MenuItem[], hours: Hours }) {
+  const [todayHours, setTodayHours] = useState<string | null>(null);
+
+  useEffect(() => {
+    const days: (keyof Hours)[] = ['sunday_monday', 'sunday_monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+    const today = new Date().getDay();
+    const key = days[today];
+    setTodayHours(hours[key]);
+  }, [hours]);
+
   const plates = menuItems.filter(item => item.section === 'plates').sort((a, b) => a.sort_order - b.sort_order);
   const feast = menuItems.filter(item => item.section === 'feast').sort((a, b) => a.sort_order - b.sort_order)[0];
   const sandwiches = menuItems.filter(item => item.section === 'sandwiches').sort((a, b) => a.sort_order - b.sort_order);
@@ -64,7 +74,7 @@ export default function LandingPage({ menuItems, hours }: { menuItems: MenuItem[
       </nav>
 
       {/* Hero Section */}
-      <header className="relative w-full h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
+      <header className="relative w-full h-[85svh] min-h-[550px] md:min-h-[600px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
             src="/jmbrisket.jpg"
@@ -103,28 +113,35 @@ export default function LandingPage({ menuItems, hours }: { menuItems: MenuItem[
             </a>
           </motion.div>
         </motion.div>
-      </header>
 
-      {/* Info Strip */}
-      <section className="bg-orange-600 w-full relative z-20 overflow-hidden border-t border-b border-orange-700">
-        <div className="flex whitespace-nowrap py-4 items-center">
-          <div className="flex animate-[marquee_20s_linear_infinite]">
-            {[...Array(6)].map((_, i) => (
-              <div key={i} className="flex items-center text-stone-950 font-serif italic font-black text-2xl uppercase tracking-tighter mx-8">
-                <MapPin className="w-5 h-5 mr-2" />
-                300 S Broadway Ave, Urbana, IL
-                <span className="mx-8 opacity-40">•</span>
-                <Phone className="w-5 h-5 mr-2" />
-                (737) 381-8678
-                <span className="mx-8 opacity-40">•</span>
-                <Star className="w-5 h-5 mr-2 fill-stone-950" />
-                5.0 Stars (10 Reviews)
-                <span className="mx-8 opacity-40">•</span>
-              </div>
-            ))}
+        {/* Info Strip */}
+        <div className="absolute bottom-0 left-0 right-0 bg-orange-600 w-full z-20 overflow-hidden border-t border-b border-orange-700">
+          <div className="flex whitespace-nowrap py-4 items-center">
+            <div className="flex animate-[marquee_20s_linear_infinite]">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="flex items-center text-stone-950 font-serif italic font-black text-xl md:text-2xl uppercase tracking-tighter mx-8">
+                  <MapPin className="w-5 h-5 mr-2 shrink-0" />
+                  300 S Broadway Ave, Urbana, IL
+                  <span className="mx-8 opacity-40">•</span>
+                  <Phone className="w-5 h-5 mr-2 shrink-0" />
+                  (737) 381-8678
+                  {todayHours && (
+                    <>
+                      <span className="mx-8 opacity-40">•</span>
+                      <Clock className="w-5 h-5 mr-2 shrink-0" />
+                      Today&apos;s Hours: {todayHours}
+                    </>
+                  )}
+                  <span className="mx-8 opacity-40">•</span>
+                  <Star className="w-5 h-5 mr-2 shrink-0 fill-stone-950" />
+                  5.0 Stars (10 Reviews)
+                  <span className="mx-8 opacity-40">•</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </section>
+      </header>
 
       {/* Intro / The Food Section */}
       <section id="about" className="py-24 md:py-32 px-6 max-w-7xl mx-auto relative">
